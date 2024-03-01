@@ -1,0 +1,71 @@
+            SUPERCOMPUTER
+    Problema implementeaza un algoritm de sortare topologica si determina lungimea maxima a unei secvente intr-un graf aciclic orientat.
+    Functia sortare_topologica():
+        - verifica daca nu exista dependente (nr_dependente == 0). In acest caz, rezultatul este 0, deoarece nu exista restrictii de dependente.
+        - creeaza o copie a vectorului in_degree numita in_degreeCopy, care va fi actualizata pe parcurs.
+        - creeaza un vector dp de lungime n + 1 pentru a stoca lungimile maxime ale secventelor. Inițial, toate elementele sunt initializate cu 0.
+        - construieste o coada si se adauga in coada toate nodurile fara dependente initiale. Acestea sunt nodurile cu grade de intrare 0.
+        - parcurge coada si pentru fiecare nod se actualizeaza gradele de intrare ale vecinilor si se calculeaza lungimea maxima a secventei.
+           (lungime maxima = lungimea maxima de taskuri care pot fi executate succesiv, fara a necesita context switch uri)
+            - se scade 1 din gradele de intrare ale vecinilor (vecinii sunt nodurile la care se ajunge din nodul curent).
+            - daca gradul de intrare al unui vecin devine 0, acesta este adaugat in coada pentru a fi procesat ulterior.
+            - se compara gradele nodului curent si ale vecinului. Daca sunt diferite, se actualizeaza lungimea maxima a secvenței (dp) pentru vecin, 
+adaugand 1 la lungimea maxima a secventei a nodului curent.
+            - daca gradele sunt egale, lungimea maxima a secventei pentru vecin ramane aceeasi ca si pentru nodul curent.
+        - se determina lungimea maxima a secventei prin parcurgerea vectorului dp si gasirea valorii maxime.
+        Complexitatea algoritmului:
+        - sortarea topologica: O(nr_dependente);
+        - lungimea secventei: O(n);
+        Deci, complexitatea algoritmului este O(n + nr_dependente).
+
+            FERATE
+    Problema implementeaza algoritmul lui Tarjan pentru a gasi componentele tare-conexe intr-un graf orientat reprezentand reteaua feroviară. 
+Scopul este de a determina numarul minim de linii ferate necesare pentru a finaliza proiectul de extindere a zonei de exploatare.
+    Funcția tarjan_scc primeste ca argumente nodul curent, lista de adiacenta a grafului, lista de adiacenta a vecinilor, vectorul parent pentru 
+a retine parintele fiecarui nod in parcurgere, vectorul vizitat pentru a marca nodurile vizitate, vectorul low_link pentru a calcula valorile "low_link" 
+ale nodurilor, stack-ul nodes_stack pentru a stoca nodurile vizitate in parcurgerea curenta, vectorul in_stack pentru a verifica dacă un nod se află in 
+stack, timestamp-ul si contorul nr pentru a numara componentele tare-conexe si numarul minim de linii ferate necesare, si gara care reprezintă gara principala.
+    Se marcheaza nodul curent ca vizitat si se actualizeaza valorile "low_link" si "vizitat" ale acestuia. Se adauga nodul in stack si se marchează ca fiind in stack.
+    Se parcurg vecinii nodului curent. Daca vecinul este deja vizitat si se afla in stack, se actualizeaza valoarea "low_link" a nodului curent. Daca vecinul nu este 
+vizitat, se seteaza parintele vecinului, se apeleaza recursiv functia pentru vecin si se actualizeaza valoarea "low_link" a nodului curent.
+    Dupa terminarea parcurgerii vecinilor, se verifica daca nodul curent formeaza o componenta tare-conexa. Daca da, se extrag nodurile din stack pana la nodul curent
+si se verifica daca exista un nod izolat in componenta tare-conexa (care nu este gara). Daca da, se incrementeaza contorul nr si se revine din functie. Daca componenta 
+tare-conexa contine gara, se revine din functie. Daca toti vecinii nodurilor din componenta tare-conexa se afla si ei in componenta tare-conexa, se incrementeaza contorul nr.
+    Functia se repeta pentru fiecare nod nevizitat pana cand toate componentele tare-conexe sunt identificate.
+        Complexitatea algoritmului:
+        - initializarea vectorilor si a variabilelor locale: O(n);
+        - construirea listelor de adiacenta si calculul gradelor de intrare: O(m);
+        - aplicarea algoritmului lui Tarjan pentru fiecare nod nevizitat: O(n + m);
+        Deci, complexitatea totala a algoritmului este O(n + m).
+
+            
+ 
+
+            MAGAZIN
+    Problema implemnteaza functia dfs (Depth-First Search) care realizeaza parcurgerea in adancime a grafului si primeste urmatorii parametri:
+        - node: nodul curent care se exploreaza;
+        - adj: matricea de adiacenta a grafului;
+        - found: vectorul in care se inregistreaza momentul de gasire a fiecarui nod;
+        - end: vectorul in care se inregistreaza momentul de finalizare a fiecarui nod;
+        - nodeOrder: vectorul in care se inregistreaza ordinea de parcurgere a nodurilor;
+        - vizitat: vectorul care indica daca un nod a fost vizitat sau nu;
+        - timestamp: variabila care reprezinta momentul curent de timp
+    In cadrul functiei se actualizeaza starea nodului curent, se parcurg vecinii nevizitati ai nodului si se apeleaza recursiv functia dfs 
+pentru acesti vecini. La final, se inregistreaza momentul de finalizare al nodului curent.
+    In functia main se initializeaza vectorii si matricea de adiacentă:
+        - found, end, nodeOrder sunt initializati cu dimensiunea n+1 pentru a stoca informatii despre fiecare nod;
+        - adj este o matrice de adiacenta cu dimensiunea n+1, in care se vor inregistra vecinii fiecărui nod;
+    Se citesc depozitele si se construieste graful:
+        - se citesc n-1 numere, reprezentand depozitul de la care fiecare depozit va primi colete;
+        - se adauga muchii in matricea de adiacenta corespunzatoare legaturilor între depozite.
+    Se citesc intrebarile si se stocheaza intr-un vector de perechi (depozit, numar de expedieri).
+    Se initializeaza vectorul de rezultate answers cu -1, pentru a stoca raspunsurile la intrebari.
+    Se initializeaza vectorul vizitat cu fals si se seteaza timestamp-ul la 0.
+    Se parcurge graful si se aplica DFS pentru fiecare nod nevizitat, pentru a inregistra momentele de gasire si finalizare ale fiecarui nod. Pentru 
+fiecare intrebare, se verifica daca E expedieri consecutive sunt posibile si se calculeaza depozitul care va primi coletele plecate de la depozitul D 
+dupa cele E expedieri consecutive, utilizand informatiile inregistrate in timpul parcurgerii DFS. Raspunsurile sunt actualizate in vectorul answers.
+
+    Complexitatea algoritmului:
+- construirea grafului O(n);
+- DFS O(n);
+Deci, intregul algoritm are complexitatea O(n).
